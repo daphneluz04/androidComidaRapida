@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:outlineAmbientShadowColor="#9C27B0"
     tools:context=".registro2resttaurant">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -28,7 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:outlineAmbientShadowColor="#CF1E1E"
+        android:paddingTop="10dp"
+        android:src="@drawable/ic_baseline_exit_to_app_24" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 package com.example.androidcomidarapida;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -41,6 +42,7 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
     private TextView street;
     private Button next;
     private LatLng mainposition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +67,10 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Registrando datos espere por favor", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Intent registro2 = new Intent(registro2resttaurant.this, registroDos.class);
+                registro2resttaurant.this.startActivity(registro2);
             }
         });
         loadComponents();

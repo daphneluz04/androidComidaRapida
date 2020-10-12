@@ -60,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
               public void onClick(View view) {
                     Intent registerActivity = new Intent(root , registro2resttaurant.class);
                     root.startActivity(registerActivity);
+
               }
           });
-
-
     }
 
 
