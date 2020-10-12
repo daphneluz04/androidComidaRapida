@@ -22,5 +22,15 @@
         android:name="com.example.androidcomidarapida.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/hacerPedido"
+        android:name="com.example.androidcomidarapida.hacerPedido"
+        android:label="fragment_hacer_pedido"
+        tools:layout="@layout/fragment_hacer_pedido" />
+    <fragment
+        android:id="@+id/ordenes"
+        android:name="com.example.androidcomidarapida.ordenes"
+        android:label="fragment_ordenes"
+        tools:layout="@layout/fragment_ordenes" />
 
 </navigation>

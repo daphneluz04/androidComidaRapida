@@ -8,12 +8,20 @@
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_outline_menu_book_24"
         android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_sharp_near_me_24"
         android:title="@string/title_notifications" />
+    <item
+        android:id="@+id/hacerPedido"
+        android:icon="@drawable/ic_baseline_add_shopping_cart_24"
+        android:title="@string/title_hacerPedidos" />
+    <item
+        android:id="@+id/ordenes"
+        android:icon="@drawable/ic_baseline_fastfood_24"
+        android:title="@string/title_ordenes" />
 
 </menu>
