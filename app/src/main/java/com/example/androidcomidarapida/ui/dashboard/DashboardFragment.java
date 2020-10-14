@@ -1,5 +1,6 @@
 package com.example.androidcomidarapida.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.androidcomidarapida.R;
+import com.example.androidcomidarapida.registro2resttaurant;
 
 import java.util.ArrayList;
 
@@ -29,8 +31,12 @@ public class DashboardFragment extends Fragment  {
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard); //aqui llamar
+        final TextView textView = root.findViewById(R.id.text_dashboard); //aqui llamar desde el boton al fragment
+        //es para ir del boton crear menu a el fracment menu
+        // root.findViewById(R.id.buttonCrearMenu);
         //root.findViewById(R.id.)
+
+
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

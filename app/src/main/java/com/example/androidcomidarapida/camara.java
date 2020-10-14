@@ -1,6 +1,5 @@
 package com.example.androidcomidarapida;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +38,7 @@ public class camara extends AppCompatActivity {
         });
         btn = findViewById(R.id.camera);
 
-        SEND = findViewById(R.id.register);
+        SEND = findViewById(R.id.login);
         IMG = findViewById(R.id.image);
         btn.setVisibility(View.INVISIBLE);
        // if (reviewPermissions()) {

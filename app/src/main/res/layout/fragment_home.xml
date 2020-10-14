@@ -82,10 +82,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCrearMenu" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCrearMenu"
         android:layout_width="322dp"
         android:layout_height="59dp"
         android:layout_marginStart="16dp"
