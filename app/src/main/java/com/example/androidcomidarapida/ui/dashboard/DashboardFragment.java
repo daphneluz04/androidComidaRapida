@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +23,13 @@ import com.example.androidcomidarapida.registro2resttaurant;
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment  {
+    private Button foto;
+    private EditText nombre;
+    private EditText Precio;
 
+    private int confir=0;
+
+    //private host HOST =new host();
 
     private DashboardViewModel dashboardViewModel;
 
@@ -35,6 +42,12 @@ public class DashboardFragment extends Fragment  {
         //es para ir del boton crear menu a el fracment menu
         // root.findViewById(R.id.buttonCrearMenu);
         //root.findViewById(R.id.)
+
+
+
+
+
+
 
 
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view4" />
 
     <EditText
-        android:id="@+id/nombre"
+        android:id="@+id/nombreLogin"
         android:layout_width="352dp"
         android:layout_height="58dp"
         android:layout_marginStart="16dp"
@@ -81,14 +81,14 @@
         android:paddingLeft="20dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintBottom_toTopOf="@+id/emailLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/emailLogin"
         android:layout_width="355dp"
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
@@ -105,10 +105,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre" />
+        app:layout_constraintTop_toBottomOf="@+id/nombreLogin" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/botonpropietario"
         android:layout_width="356dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -132,7 +132,7 @@
         android:id="@+id/login"
         android:layout_width="274dp"
         android:layout_height="65dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rectangle"
         android:drawableRight="@drawable/ic_baseline_exit_to_app_24"
         android:drawableBottom="@color/colorPrimaryDark"
@@ -146,7 +146,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/botonpropietario"
+        app:layout_constraintVertical_bias="0.684" />
 
     <EditText
         android:id="@+id/botonpropietario"
@@ -166,5 +167,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/emailLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,11 +69,11 @@ public class registroRestaurtant extends AppCompatActivity {
                 root.startActivity(registerActivity);
                 //aqui envio de la api
         AsyncHttpClient client = new AsyncHttpClient();
-        EditText restaurant =  root.findViewById(R.id.nombre);
-        EditText nit =root.findViewById(R.id.email);
-        EditText propietario = root.findViewById(R.id.email);
-        EditText calle = root.findViewById(R.id.password);
-        EditText telefono = root.findViewById(R.id.password);
+        EditText restaurant =  root.findViewById(R.id.nombreLogin);
+        EditText nit =root.findViewById(R.id.emailLogin);
+        EditText propietario = root.findViewById(R.id.emailLogin);
+        EditText calle = root.findViewById(R.id.botonpropietario);
+        EditText telefono = root.findViewById(R.id.botonpropietario);
 
 
         RequestParams params = new RequestParams();
@@ -90,7 +90,7 @@ public class registroRestaurtant extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     if (response.has("msn")){
-                        UserDataServer.MSM = response.getString("msn");
+                        UserDataServer.MSN = response.getString("msn");
                     }
                     if (response.has("token")){
                         UserDataServer.TOKEN = response.getString("token");
