@@ -18,10 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".register"></activity>
         <activity
             android:name=".registroRestaurtant"
             android:label="@string/title_activity_registro_restaurtant"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".registroDos"
             android:label="@string/title_activity_registro_dos" />

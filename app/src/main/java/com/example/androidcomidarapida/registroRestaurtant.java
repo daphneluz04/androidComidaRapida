@@ -5,7 +5,6 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.androidcomidarapida.utils.EndPoints;
-import com.example.androidcomidarapida.utils.UserDataServer;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
@@ -20,11 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.entity.mime.Header;
@@ -32,9 +28,7 @@ import cz.msebera.android.httpclient.entity.mime.Header;
 public class registroRestaurtant extends AppCompatActivity {
     Button registerButton;
     //static final int code_camera = 999;
-    private registroRestaurtant root = this;
-
-
+    //private registroRestaurtant root = this;
     private MapView map;
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -49,17 +43,52 @@ public class registroRestaurtant extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        next = findViewById(R.id.loginSend);
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "enviando datos", Snackbar.LENGTH_LONG)
+                       .setAction("Action", null).show();
+
+                Intent intent = new Intent(registroRestaurtant.this, registro2resttaurant.class);
+                registroRestaurtant.this.startActivity(intent);
+
+              //  loadComponents();  //aqai desbloqear
             }
         });
-        loadComponents();
+
     }
 
-    private void loadComponents() {
+   /* private void loadComponents() {
+
+         //si no funciona cambiar por text view
+        TextView restaurant = findViewById(R.id.nombrerest);
+        //TextView nit = findViewById(R.id.nitrest);
+        TextView propietario = findViewById(R.id.propietarioRest);
+        TextView calle = findViewById(R.id.CalleRest);
+        TextView telefono =findViewById(R.id.telefonoRest);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+
+        params.add("name",restaurant.getText().toString());  //la palabra en en verde debe ser la misma de la api
+        //params.add("nit", nit.getText().toString());
+        params.add("propietario",propietario.getText().toString());
+        params.add("street",calle.getText().toString());
+        params.add("telephone",telefono.getText().toString());
+
+        client.post(EndPoints.RESTAURANT_SERVICE,params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
+
+                Intent intent = new Intent(registroRestaurtant.this, registro2resttaurant.class);
+                registroRestaurtant.this.startActivity(intent);
+            }
+        });
+
+    }
+
+   /* private void loadComponents() {
         registerButton =this.findViewById(R.id.login);
         registerButton.setOnClickListener(new View.OnClickListener() {
             //metodo del boton al sig actividad
@@ -113,7 +142,7 @@ public class registroRestaurtant extends AppCompatActivity {
             }
 
         });
-    }
+    }*/
 
 }
 

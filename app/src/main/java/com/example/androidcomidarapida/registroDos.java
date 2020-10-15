@@ -27,4 +27,6 @@ public class registroDos extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
+
+
 }
