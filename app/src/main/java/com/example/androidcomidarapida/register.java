@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.androidcomidarapida.utils.EndPoints;
+import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -22,14 +23,14 @@ import cz.msebera.android.httpclient.Header;
 import static com.example.androidcomidarapida.utils.EndPoints.ip;
 
 public class register extends AppCompatActivity implements View.OnClickListener {
-    EditText nombre,email,pass;
+    EditText name,email,pass;
     Button send,back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        nombre=findViewById(R.id.regName);
+        name=findViewById(R.id.regName);
         email=findViewById(R.id.regEmail);
         pass=findViewById(R.id.regPass);
         send=findViewById(R.id.regSend);
@@ -46,7 +47,8 @@ public class register extends AppCompatActivity implements View.OnClickListener 
           enviar();
           Intent in = new Intent(register.this,MainActivity.class);
           startActivity(in);
-
+          Snackbar.make(v, "Registrando datos", Snackbar.LENGTH_LONG)
+                  .setAction("Action", null).show();
           //para cancelar el registro
       }else if (v.getId()==R.id.regCancel){
           Intent in = new Intent(register.this,MainActivity.class);
@@ -59,11 +61,11 @@ public class register extends AppCompatActivity implements View.OnClickListener 
        //metodo post
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams rq=new RequestParams();
-        rq.put("nombre",nombre.getText().toString());
+        rq.put("nombre",name.getText().toString());
         rq.put("email",email.getText().toString());
         rq.put("password",pass.getText().toString());
 
-         client.post(EndPoints.ip+"/user", rq,new JsonHttpResponseHandler(){
+        client.post(EndPoints.ip+"/user", rq,new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);

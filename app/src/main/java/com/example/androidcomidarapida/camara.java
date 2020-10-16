@@ -38,7 +38,7 @@ public class camara extends AppCompatActivity {
         });
         btn = findViewById(R.id.camera);
 
-        SEND = findViewById(R.id.loginSend);
+        SEND = findViewById(R.id.restauran1Send);
         IMG = findViewById(R.id.image);
         btn.setVisibility(View.INVISIBLE);
        // if (reviewPermissions()) {

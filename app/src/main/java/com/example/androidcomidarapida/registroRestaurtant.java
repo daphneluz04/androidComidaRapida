@@ -1,13 +1,9 @@
 package com.example.androidcomidarapida;
 
 import android.content.Intent;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.androidcomidarapida.utils.EndPoints;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpClient;
@@ -19,22 +15,19 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
+import cz.msebera.android.httpclient.Header;
 
-public class registroRestaurtant extends AppCompatActivity {
-    Button registerButton;
-    //static final int code_camera = 999;
-    //private registroRestaurtant root = this;
-    private MapView map;
-    private GoogleMap mMap;
-    private Geocoder geocoder;
-    private TextView street;
-    private Button next;
-    private LatLng mainposition;
+public class registroRestaurtant extends AppCompatActivity implements View.OnClickListener {
+    EditText restaurant,nit,propietario,calle,telf;
+    Button send,back;
+    //private Button next;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,106 +36,77 @@ public class registroRestaurtant extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        next = findViewById(R.id.loginSend);
-        next.setOnClickListener(new View.OnClickListener() {
+        //fab = findViewById(R.id.restauran1Send);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "enviando datos", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Bienvenido a las actividades", Snackbar.LENGTH_LONG)
                        .setAction("Action", null).show();
 
                 Intent intent = new Intent(registroRestaurtant.this, registro2resttaurant.class);
                 registroRestaurtant.this.startActivity(intent);
 
-              //  loadComponents();  //aqai desbloqear
             }
         });
+        restaurant=findViewById(R.id.nombrerest);
+        nit=findViewById(R.id.nitrest);
+        propietario=findViewById(R.id.propietarioRest);
+        calle=findViewById(R.id.CalleRest);
+        telf=findViewById(R.id.telefonoRest);
+        send=findViewById(R.id.restauran1Send);
+        back=findViewById(R.id.bankrestaurant1);
+
+        send.setOnClickListener(this);
+        back.setOnClickListener(this);
 
     }
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.restauran1Send){
+            enviar();
+            Intent in = new Intent(registroRestaurtant.this,registro2resttaurant.class);
+            startActivity(in);
+            Snackbar.make(v, "Registrando datos", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
 
-   /* private void loadComponents() {
-
-         //si no funciona cambiar por text view
-        TextView restaurant = findViewById(R.id.nombrerest);
-        //TextView nit = findViewById(R.id.nitrest);
-        TextView propietario = findViewById(R.id.propietarioRest);
-        TextView calle = findViewById(R.id.CalleRest);
-        TextView telefono =findViewById(R.id.telefonoRest);
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-        params.add("name",restaurant.getText().toString());  //la palabra en en verde debe ser la misma de la api
-        //params.add("nit", nit.getText().toString());
-        params.add("propietario",propietario.getText().toString());
-        params.add("street",calle.getText().toString());
-        params.add("telephone",telefono.getText().toString());
-
-        client.post(EndPoints.RESTAURANT_SERVICE,params, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response){
-
-                Intent intent = new Intent(registroRestaurtant.this, registro2resttaurant.class);
-                registroRestaurtant.this.startActivity(intent);
-            }
-        });
-
+            //para cancelar el registro
+        }else if (v.getId()==R.id.bankrestaurant1){
+            Intent in = new Intent(registroRestaurtant.this,registroRestaurtant.class);
+            startActivity(in);
+        }
     }
 
-   /* private void loadComponents() {
-        registerButton =this.findViewById(R.id.login);
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            //metodo del boton al sig actividad
-            @Override
-            public void onClick(View view) {
-                Intent registerActivity = new Intent(root , registro2resttaurant.class);
-                root.startActivity(registerActivity);
-                //aqui envio de la api
+    private void enviar() {
+        //direccion de la ip d
+        //metodo post
+        //restaurant,nit,propietario,calle,telf;
         AsyncHttpClient client = new AsyncHttpClient();
-        EditText restaurant =  root.findViewById(R.id.nombreLogin);
-        EditText nit =root.findViewById(R.id.emailLogin);
-        EditText propietario = root.findViewById(R.id.emailLogin);
-        EditText calle = root.findViewById(R.id.botonpropietario);
-        EditText telefono = root.findViewById(R.id.botonpropietario);
+        RequestParams rq=new RequestParams();
+        rq.put("name",restaurant.getText().toString());
+        rq.put("nit",nit.getText().toString());
+        rq.put("propietario",propietario.getText().toString());
+        rq.put("street",calle.getText().toString());
+        rq.put("telephone",telf.getText().toString()); //la palabra verde viene de el api
 
-
-        RequestParams params = new RequestParams();
-
-        params.add("name",restaurant.getText().toString());  //la palabra en en verde debe ser la misma de la api
-        params.add("nit",nit.getText().toString());
-        params.add("propietario",propietario.getText().toString());
-        params.add("street",calle.getText().toString());
-        params.add("telephone",telefono.getText().toString());
-
-        client.post(EndPoints.RESTAURANT_SERVICE,params, new JsonHttpResponseHandler(){
-
-          //  @Override
+        client.post(EndPoints.HOST+"/restaurante", rq,new JsonHttpResponseHandler(){
+            @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
                 try {
-                    if (response.has("msn")){
-                        UserDataServer.MSN = response.getString("msn");
-                    }
-                    if (response.has("token")){
-                        UserDataServer.TOKEN = response.getString("token");
-                    }
-                    if (UserDataServer.TOKEN.length()> 150){
-                        Intent intent = new Intent(root, registroRestaurtant.class);
-                        root.startActivity(intent);
-                    }else {
-                        Toast.makeText(root, response.getString("msn"), Toast.LENGTH_LONG).show();
-                    }
-
-
-
-
-                } catch (JSONException e) {
+                    String res=response.getString("message");
+                    Toast.makeText(getApplicationContext(), res, Toast.LENGTH_SHORT).show();
+                }catch (JSONException e){
                     e.printStackTrace();
                 }
             }
-        }); //hasta aqui la api de registro
-            }
 
         });
-    }*/
 
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
 

@@ -73,17 +73,54 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
                 registro2resttaurant.this.startActivity(registro2);
             }
         });
-        loadComponents();
 
+        loadComponents();
+        //nit=findViewById(R.id.nitrest);
 
     }
+
+    //mapa
+    //@Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        //-19.5783329,-65.7563853
+        LatLng potosi = new LatLng(-19.5783329, -65.7563853);
+        mainposition = potosi;
+        mMap.addMarker(new MarkerOptions().position(potosi).title("Lugar").zIndex(17).draggable(true));
+        mMap.setMinZoomPreference(16);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(potosi));
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                mainposition = marker.getPosition();
+                //String street_string = getStreet(marker.getPosition().latitude, marker.getPosition().longitude);
+                // street.setText(street_string);
+            }
+        });
+    }
+
+
+    //mapa
 
     private void loadComponents() {
         TakePhoto = this.findViewById(R.id.photobtn);
         TakePhoto.setOnClickListener(this);
     }
 
-    //permisos para el uso de la camara
+    //***************************************permisos para el uso de la camara***********************************
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == PERMISION_CODE){
@@ -143,42 +180,8 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
         }
     }
 
-    //final camara
-    //mapa
-    //@Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    //***********************************************final camara***************************************************************
 
-        // Add a marker in Sydney and move the camera
-        //-19.5783329,-65.7563853
-        LatLng potosi = new LatLng(-19.5783329, -65.7563853);
-        mainposition = potosi;
-        mMap.addMarker(new MarkerOptions().position(potosi).title("Lugar").zIndex(17).draggable(true));
-        mMap.setMinZoomPreference(16);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(potosi));
-
-        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-            @Override
-            public void onMarkerDragStart(Marker marker) {
-
-            }
-
-            @Override
-            public void onMarkerDrag(Marker marker) {
-
-            }
-
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                mainposition = marker.getPosition();
-                //String street_string = getStreet(marker.getPosition().latitude, marker.getPosition().longitude);
-               // street.setText(street_string);
-            }
-        });
-    }
-
-
-    //mapa
 
 
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.androidcomidarapida.utils.EndPoints;
@@ -20,23 +19,20 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.mime.Header;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText email,pass;
     Button entrar,reg;
-    //Button loginButton;
-    //static final int code_camera = 999;
-   // private MainActivity root = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        email=findViewById(R.id.loginEmail);
+        email=findViewById(R.id.nitrest);
         pass=findViewById(R.id.loginPass);
-        entrar=findViewById(R.id.loginSend);
+        entrar=findViewById(R.id.restauran1Send);
         reg=findViewById(R.id.loginRegister);
 
         reg.setOnClickListener(this);
@@ -45,11 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     @Override
-    public void onClick(View view) {
-        if (view.getId()==R.id.loginRegister){
+    public void onClick(View v) {
+        if (v.getId()==R.id.loginRegister){
             Intent in=new Intent(MainActivity.this,register.class);
             startActivity(in);
-        }else if (view.getId()==R.id.loginSend){
+        }else if (v.getId()==R.id.restauran1Send){
                cargar();
         }
 
@@ -62,14 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         req.put("password",pass.getText().toString());
 
         //aqui se ira a la clase que se desea
-        Intent in = new Intent(MainActivity.this,registroRestaurtant.class);
+       Intent in = new Intent(MainActivity.this,registroRestaurtant.class);
         startActivity(in);
 
        /* client.post(EndPoints.ip+"/user/login",req,new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
 
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
                 try {
                     JSONObject res=response;
                     //String res=response.getString("message");
@@ -78,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this,res.getString("message"),Toast.LENGTH_SHORT).show();
                     }else if (res.getString("message").equals("password incorrecto")){
                         Toast.makeText(MainActivity.this,res.getString("message"),Toast.LENGTH_SHORT).show();
-                    }else if ( res.getString("message").equals("Bienvenido")){
+                    }else if (res.getString("message").equals("Bienvenido ")){
                         Toast.makeText(MainActivity.this,res.getString("message"),Toast.LENGTH_SHORT).show();
                         SharedPreferences pref=getSharedPreferences("datauser", Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit=pref.edit();
