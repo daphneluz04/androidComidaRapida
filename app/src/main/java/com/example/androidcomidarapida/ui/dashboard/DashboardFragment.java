@@ -10,8 +10,10 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,14 +36,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-
-public class DashboardFragment extends Fragment implements View.OnClickListener{
+public class DashboardFragment extends Fragment implements View.OnClickListener,onLoadData{
     //private host HOST =new host();
     static final int PERMISION_CODE = 123;
     static final int code_camera = 999;
     Button TakePhoto;
+
+    Button send,cancel,add;
+    EditText titulo, precio, descripcion;
+    List<String> imageList;
 
     private DashboardViewModel dashboardViewModel;
     private ListView list;
@@ -51,26 +57,39 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard); //aqui llamar desde el boton al fragment
+        //final TextView textView = root.findViewById(R.id.text_dashboard); //aqui llamar desde el boton al fragment
         //es para ir del boton crear menu a el fracment menu
         // root.findViewById(R.id.buttonCrearMenu);
         //root.findViewById(R.id.)
+
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
-
             }
+
         });
         return root;
 
     }
+
+
     //***************************************permisos para el uso de la camara***********************************
     public void onStart() {
         super.onStart();
 
         TakePhoto = this.getActivity().findViewById(R.id.buttonfotoMenu);
         TakePhoto.setOnClickListener(this);
+
+        list = this.getActivity().findViewById(R.id.milistamenu);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+        ArrayList<StructMenu> datos = new ArrayList<>();
+        MenuApi api = new MenuApi(this);
+        api.loadMenu();
 
     }
     @Override
@@ -127,33 +146,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             img.setImageBitmap(imageBitmap);
         }
     }
-
-    //***********************************************final camara***************************************************************
-
-   /* public void onStart() {
-        super.onStart();
-         list = this.getActivity().findViewById(R.id.milistamenu);
-         ArrayList<StructMenu> datos = new ArrayList<>();
-         MenuApi api = new MenuApi(this);
-         api.loadMenu();
-
-       /* for (int i=0; i <= 100 ; i++){
-            //datos.add("Item  " + i);
-            StructMenu item = new StructMenu();
-            item.setName("itemNombre"+ i);
-            item.setPrecio("itemPrecio"+ i);
-            item.setDescription("itemDescripcion"+i);
-            item.setPicture("NO IMAGE"+i);
-            datos.add(item);
-
-        }
-    }
-
-    @Override
-    public void onJsonLoad(JSONObject data) {
-
-    }
-
     @Override
     public void onJsonArrayLoad(JSONArray data) {
         ArrayList<StructMenu> datos = new ArrayList<>();
@@ -185,22 +177,19 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                 e.printStackTrace();
             }
         }
-        adapterMenu adapter = new adapterMenu(datos, this.getContext());
+        adapterMenu adapter = new adapterMenu(this.getContext(), datos);
         // ArrayAdapter adapter = new ArrayAdapter(this.getContext(),android.R.layout.simple_list_item_1, datos);
         list.setAdapter(adapter);
-    }
+       }
 
+    @Override
+    public void onJsonLoad(JSONObject data) {
+
+    }
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 
     }
 
-
-    //aqui camara
-}
-*/
-
-
-
-
+    //***********************************************final camara***************************************************************
 }

@@ -49,7 +49,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
           startActivity(in);
           Snackbar.make(v, "Registrando datos", Snackbar.LENGTH_LONG)
                   .setAction("Action", null).show();
-          //para cancelar el registro
+          //aqui se cancela registro
       }else if (v.getId()==R.id.regCancel){
           Intent in = new Intent(register.this,MainActivity.class);
           startActivity(in);

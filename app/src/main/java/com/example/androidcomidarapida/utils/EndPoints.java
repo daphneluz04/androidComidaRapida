@@ -6,6 +6,12 @@ public class EndPoints {
    // public static String LOGIN_SERVICE = HOST +  "localhost:8000/user";
     public static String RESTAURANT_SERVICE = HOST +  "localhost:8000/restaurante";
     public static String MENU_SERVICE = HOST +  "localhost:8000/menu";
+    public static String UPLOAD_RESTORANT = HOST +  "localhost:8000/restaurante";
+    //UPLOAD_RESTORANT
+
+
+
+
 
 
 }

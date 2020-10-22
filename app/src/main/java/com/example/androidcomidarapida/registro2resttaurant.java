@@ -1,6 +1,7 @@
 package com.example.androidcomidarapida;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,6 +14,9 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.androidcomidarapida.utils.EndPoints;
+import com.example.androidcomidarapida.utils.UserDataServer;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -24,6 +28,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.provider.MediaStore;
@@ -32,21 +41,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class registro2resttaurant extends AppCompatActivity implements View.OnClickListener ,OnMapReadyCallback{
-    static final int PERMISION_CODE = 123;
-    static final int code_camera = 999;
-    Button TakePhoto;
-    //ImageView foto;
+import cz.msebera.android.httpclient.Header;
+
+public class registro2resttaurant extends AppCompatActivity implements OnMapReadyCallback{
     //mapa
     private MapView map;
     private GoogleMap mMap;
     private Geocoder geocoder;
     private LatLng mainposition;
     private TextView street;
+    private Button fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +69,7 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
         MapsInitializer.initialize(this);
         map.getMapAsync(this);
         geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-        //street = findViewById(R.id.street);
+        //calle = findViewById(R.id.calle);
         //hasta aqui mapa
 
 
@@ -70,88 +81,56 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                sendData();
                 //luego ponr la condicion de if
                 Snackbar.make(view, "Registrando datos espere por favor", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent registro2 = new Intent(registro2resttaurant.this, registroDos.class);
-                registro2resttaurant.this.startActivity(registro2);
+                //Intent registroCamara = new Intent(registro2resttaurant.this, registroCamara.class);
+               // registro2resttaurant.this.startActivity(registroCamara);
 
                 }
         });
-        loadComponents();
     }
 
+    private void sendData() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.addHeader("authorization", UserDataServer.TOKEN);
 
+        RequestParams rq=new RequestParams();
+        rq.put("Lat", String.valueOf(""));
+        rq.put("Log", String.valueOf(""));
 
+        client.post(EndPoints.HOST+"/restaurante", rq,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                AlertDialog alertDialog = new AlertDialog.Builder(registro2resttaurant.this).create();
+                try {
+                    String res=response.getString("message");
+                    alertDialog.setTitle("RESPONSE SERVER");
+                    alertDialog.setMessage(res);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
 
-    //***************************************permisos para el uso de la camara***********************************
-    private void loadComponents() {
-        TakePhoto = this.findViewById(R.id.photobtn);
-        TakePhoto.setOnClickListener(this);
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PERMISION_CODE){
-            if (permissions.length > 0){
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                       callCamera();
-                }else {
-                    Toast.makeText(this,"no puede seguir con el registro hasta que ponga una foto ", Toast.LENGTH_LONG).show();
+                    alertDialog.show();
+                    Toast.makeText(getApplicationContext(), res, Toast.LENGTH_SHORT).show();
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
             }
-        }
-    }
 
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            this.requestPermissions(new String[]{Manifest.permission.CAMERA},PERMISION_CODE);
-        }
-    }
-    public boolean checkPermission(String permission){
-        int result = this.checkCallingOrSelfPermission(permission);
-        return result == PackageManager.PERMISSION_GRANTED;
-    }
+        });
+        Intent camera = new Intent(registro2resttaurant.this, registroCamara.class);
+        registro2resttaurant.this.startActivity(camera);
 
+    }
 
     @Override
-    public void onClick(View view) {
-        //aqui trasladar
-        if (checkPermission(Manifest.permission.CAMERA)){
-            callCamera();
-            //Toast.makeText(this, "tiene permiso  XD", Toast.LENGTH_LONG).show();
-        }else{
-            requestPermission();
-            // Toast.makeText(this, "no tiene permiso  XD", Toast.LENGTH_LONG).show();
-        }
-    }
-    //el codigo dejara que tenga los permisos de camara
-    private void callCamera(){
-        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (camera.resolveActivity(this.getPackageManager()) != null){
-            this.startActivityForResult(camera, code_camera);
-        }
-    }
-
-    //es para recuperar la foto
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == code_camera && resultCode == RESULT_OK){
-            Bundle photo = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) photo.get("data");
-            ImageView img = this.findViewById(R.id.imagefoto);  //imageView es el nombre de donde se mostrara la imagen en contect registro
-            img.setImageBitmap(imageBitmap);
-        }
-    }
-
-    //***********************************************final camara***************************************************************
-    //***********************************************inicio google***************************************************************
-
-
-
-
-
-    //@Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -191,11 +170,6 @@ public class registro2resttaurant extends AppCompatActivity implements View.OnCl
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return result;
     }
-
-
-
-
 }

@@ -10,7 +10,7 @@ public interface onLoadData {
     void onJsonArrayLoad(JSONArray data);
 
    // void onFailure(int statusCode, Header[] headers, byte[] errorResponse ,Throwable e);
-    void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse);
+   void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse);
 
 
 }

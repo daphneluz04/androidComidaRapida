@@ -1,6 +1,7 @@
 package com.example.androidcomidarapida;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class registroDos extends AppCompatActivity {
 
+    Boolean admin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,16 @@ public class registroDos extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        //aqui
+       /* Bundle b=getIntent().getExtras();
+        admin.getBoolean("admin");
+        if (admin){
+            Menu menu = navigationView.getMenu();
+
+        }else{
+
+        }*/
     }
 
 

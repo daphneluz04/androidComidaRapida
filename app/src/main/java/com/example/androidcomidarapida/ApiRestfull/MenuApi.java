@@ -21,14 +21,14 @@ public class MenuApi {
     public void loadMenu(){
         client.addHeader("authorization", UserDataServer.TOKEN);
         client.get(EndPoints.MENU_SERVICE, new JsonHttpResponseHandler(){
-           // @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                interfaceevent.onJsonArrayLoad(response);
-            }
-            @Override
+           @Override
+           public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+               interfaceevent.onJsonArrayLoad(response);
+           }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 interfaceevent.onFailure(statusCode, headers, throwable, errorResponse);
             }
+
         });
     }
 }
