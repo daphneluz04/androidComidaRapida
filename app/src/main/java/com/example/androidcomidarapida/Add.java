@@ -147,10 +147,10 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
                 for (int i=0;i<imageList.size();i++){
                     fl[i]= new File(imageList.get(i));
                 }
-                req.put("picture",fl); //picture   img
+               req.put("picture",fl); //picture   img
             }
             SharedP pref=new SharedP(Add.this);
-            req.put("idUser",pref); //picture
+            //req.put("idUser",pref); //picture
 
             client.post(EndPoints.MENU_SERVICE+"/menu",req,new JsonHttpResponseHandler(){
                 @Override

@@ -24,10 +24,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static com.example.androidcomidarapida.registroCamara.PERMISION_CODE;
-import static com.example.androidcomidarapida.registroCamara.code_camera;
+
 
 public class registroMenu extends AppCompatActivity implements View.OnClickListener {
+
+    static final int PERMISION_CODE = 123;
+    static final int code_camera = 999;
     Button TakePhoto;
     ImageView gvGalery;
     Button send, cancel, add;

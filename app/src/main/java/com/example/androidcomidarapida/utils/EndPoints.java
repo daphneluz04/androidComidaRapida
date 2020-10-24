@@ -7,6 +7,11 @@ public class EndPoints {
     public static String RESTAURANT_SERVICE = HOST +  "localhost:8000/restaurante";
     public static String MENU_SERVICE = HOST +  "localhost:8000";
     public static String UPLOAD_RESTORANT = HOST +  "localhost:8000/restaurante";
+
+
+    public String getIp() {
+        return this.ip= "http://192.168.122.1:8000/restaurante";
+    }
     //UPLOAD_RESTORANT
 
 

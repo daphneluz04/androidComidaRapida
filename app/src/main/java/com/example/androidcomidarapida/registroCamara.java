@@ -58,107 +58,216 @@ import java.util.Locale;
 import cz.msebera.android.httpclient.Header;
 
 public class registroCamara extends AppCompatActivity implements View.OnClickListener  {
-    static final int PERMISION_CODE = 123;
-    static final int code_camera = 999;
-    Button TakePhoto;
+    private ImageView imageViewImg;
+    private Button btnoption ,btnsend;
+    private String Carpeta_Root="MisImages/";
+    private String RUTA_IMAGES=Carpeta_Root+"Mis_Fotos";
+    private String path;
+    private int CODE_GALLERY= 10;
+    private int CODE_CAMERA= 20;
+    private EndPoints HOST =new EndPoints();
+    private Context root;
 
-    private ImageView IMG;
-    private ImageButton btn;
-    private Button SEND;
-    private BitmapStruct DATAIMAGE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_camara);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                if(DATAIMAGE != null){
-                    AsyncHttpClient client = new AsyncHttpClient();
-                    File img = new File(DATAIMAGE.path);
-                    client.addHeader("authorization", UserDataServer.TOKEN);
-                    RequestParams params = new RequestParams();
-                    try {
-                        params.put("img",img);
-                        client.post(EndPoints.UPLOAD_RESTORANT, params, new JsonHttpResponseHandler(){
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                super.onSuccess(statusCode, headers, response);
-                                Toast.makeText(registroCamara.this,"EXITO",Toast.LENGTH_LONG).show();
-                               // AsyncHttpClient.log.w(LOG_TAG, "onSuccess(int, Header[], JSONObject) was not overriden, but callback was received");
-                            }
-                        });
-                    }catch(FileNotFoundException e) {}
-                }
-
-                //luego ponr la condicion de if
-                Snackbar.make(view, "Registrando datos espere por favor", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 Intent Add = new Intent(registroCamara.this, Add.class);
                 registroCamara.this.startActivity(Add);
+
             }
-        });
+          });
+
+        checkPermission();
+        root = this;
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         loadComponents();
     }
 
+    private void checkPermission() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            return ;
+
+        }
+        if(this.checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED  || this.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED|| this.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED ){
+
+            return ;
+        }else{
+            this.requestPermissions( new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},99);
+        }
+        return ;
+
+
+    }
+
     private void loadComponents() {
-        TakePhoto = this.findViewById(R.id.photobtn);
-        TakePhoto.setOnClickListener(this);
+        imageViewImg = this.findViewById(R.id.imagefoto);
+        btnoption=(Button)this.findViewById(R.id.photobtn);
+        btnsend=(Button) this.findViewById(R.id.btnsend);
+        btnsend.setOnClickListener(this);
+        btnoption.setOnClickListener(this);
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PERMISION_CODE){
-            if (permissions.length > 0){
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    callCamera();
-                }else {
-                    Toast.makeText(this,"no puede seguir con el registro hasta que ponga una foto ", Toast.LENGTH_LONG).show();
-                }
+    public void onClick(View v) {
+        if(v.getId()==R.id.photobtn){
+            cargarImagenes();
+        }
+        if(v.getId()==R.id.btnsend) {
+            try {
+                enviarImg();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            this.requestPermissions(new String[]{Manifest.permission.CAMERA},PERMISION_CODE);
+
+    private void enviarImg() throws FileNotFoundException {
+        if ( imageViewImg.getDrawable() != null) {
+            if (path != null) {
+                File file = new File(path);
+                RequestParams params = new RequestParams();
+                params.put("fotolugar", file);
+                AsyncHttpClient client = new AsyncHttpClient();
+                //  if (UserData.ID != null) {
+                client.post(HOST.getIp() , params, new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            Toast.makeText(getApplicationContext(), "SE REGISTRO SATISFACTORIAMENTE SU ANUNCIO", Toast.LENGTH_SHORT).show();
+                            //Intent intent = new Intent(root, LatLonMaps.class);
+                            //root.startActivity(intent);
+                            Toast.makeText(getApplicationContext(), response.getString("ok"), Toast.LENGTH_SHORT).show();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+                        Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_SHORT);
+                    }
+                });
+
+
+
+            }
+        } else {
+            Toast.makeText(this, "No se ha sacado una foto", Toast.LENGTH_LONG).show();
         }
     }
-    public boolean checkPermission(String permission){
-        int result = this.checkCallingOrSelfPermission(permission);
-        return result == PackageManager.PERMISSION_GRANTED;
+    public void cargarImagenes(){
+
+        final CharSequence[] options= {"Tomar Foto","Cargar de Galeria","Cancelar"};
+        final AlertDialog.Builder alertopt= new AlertDialog.Builder(this);
+        alertopt.setTitle("Seleccione una Opcion");
+        alertopt.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (options[which].equals("Tomar Foto")) {
+                    //  Toast.makeText(getApplication(), "camara", Toast.LENGTH_LONG).show();
+                    LoadCamera();
+                } else {
+                    if (options[which].equals("Cargar de Galeria")) {
+
+                        LoadMediaData();
+
+
+                    } else {
+                        dialog.dismiss();
+
+                    }
+                }
+            }
+
+
+        });
+        alertopt.show();
+
+
+
+
+    }
+
+    private void LoadMediaData()  {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = null;
+        try {
+            image = File.createTempFile(imageFileName,  ".jpg", storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        path = image.getAbsolutePath();
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent, "Seleccionar la aplocacion"), 10);
+    }
+
+    private void LoadCamera( ){
+
+        File fileimg =new File(Environment.getExternalStorageDirectory(),RUTA_IMAGES);
+        boolean filecreado = fileimg.exists();
+        String nameImg="";
+        if(filecreado==false) {
+
+            filecreado = fileimg.mkdirs();
+        }if(filecreado==true){
+            nameImg = "IMG_" +System.currentTimeMillis()/1000+ ".jpg";
+        }
+        path=Environment.getExternalStorageDirectory()+File.separator+RUTA_IMAGES+File.separator+nameImg;
+        File imagen=new File(path);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
+        startActivityForResult(intent,20);
+
+
     }
     @Override
-    public void onClick(View view) {
-        //aqui trasladar
-        if (checkPermission(Manifest.permission.CAMERA)){
-            callCamera();
-            //Toast.makeText(this, "tiene permiso  XD", Toast.LENGTH_LONG).show();
-        }else{
-            requestPermission();
-            // Toast.makeText(this, "no tiene permiso  XD", Toast.LENGTH_LONG).show();
-        }
-    }
-    //el codigo dejara que tenga los permisos de camara
-    private void callCamera(){
-        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (camera.resolveActivity(this.getPackageManager()) != null){
-            this.startActivityForResult(camera, code_camera);
-        }
-    }
-    //es para recuperar la foto
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == code_camera && resultCode == RESULT_OK){
-            Bundle photo = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) photo.get("data");
-            ImageView img = this.findViewById(R.id.imagefoto);  //imageView es el nombre de donde se mostrara la imagen en contect registro
-            img.setImageBitmap(imageBitmap);
+        if(resultCode==RESULT_OK){
+
+            switch (requestCode){
+                case 10:
+
+
+                    imageViewImg.setImageURI(data.getData());
+                    break;
+
+                case 20:
+                    MediaScannerConnection.scanFile(this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String I, Uri uri) {
+                            Log.i("Ruta de almacenamiento","PATH:"+path);
+                        }
+                    });
+                    Bitmap bitmap= BitmapFactory.decodeFile(path);
+                    imageViewImg.setImageBitmap(bitmap);
+                    break;
+            }
+
+
         }
     }
+
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+
 
      }

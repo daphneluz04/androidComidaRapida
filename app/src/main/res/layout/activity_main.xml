@@ -49,7 +49,8 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="2dp" />
+        tools:layout_editor_absoluteY="2dp"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:id="@+id/view5"
@@ -115,6 +116,7 @@
         android:inputType="textPassword"
         android:paddingLeft="20dp"
         android:textColorHint="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
