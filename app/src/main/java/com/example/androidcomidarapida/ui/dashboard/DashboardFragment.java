@@ -11,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,10 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.androidcomidarapida.Adapters.StructMenu;
-import com.example.androidcomidarapida.Adapters.adapterMenu;
-import com.example.androidcomidarapida.ApiRestfull.MenuApi;
-import com.example.androidcomidarapida.ApiRestfull.onLoadData;
 import com.example.androidcomidarapida.R;
 
 import org.json.JSONArray;
@@ -39,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-public class DashboardFragment extends Fragment implements View.OnClickListener,onLoadData{
+public class DashboardFragment extends Fragment implements View.OnClickListener{
     //private host HOST =new host();
     static final int PERMISION_CODE = 123;
     static final int code_camera = 999;
@@ -87,9 +81,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
             }
         });
-        ArrayList<StructMenu> datos = new ArrayList<>();
-        MenuApi api = new MenuApi(this);
-        api.loadMenu();
+      //  ArrayList<StructMenu> datos = new ArrayList<>();
+       // MenuApi api = new MenuApi(this);
+      //  api.loadMenu();
 
     }
     @Override
@@ -146,7 +140,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             img.setImageBitmap(imageBitmap);
         }
     }
-    @Override
+   /* @Override
     public void onJsonArrayLoad(JSONArray data) {
         ArrayList<StructMenu> datos = new ArrayList<>();
         for (int i = 0 ;i<data.length();i++){
@@ -191,5 +185,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
     }
 
+
     //***********************************************final camara***************************************************************
+    */
 }

@@ -2,10 +2,12 @@ package com.example.androidcomidarapida;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 
 import com.example.androidcomidarapida.utils.BitmapStruct;
 import com.example.androidcomidarapida.utils.EndPoints;
+import com.example.androidcomidarapida.utils.UserDataServer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpClient;
@@ -22,6 +25,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,7 +35,10 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,7 +50,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
@@ -69,11 +78,29 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onClick(View view) {
+                if(DATAIMAGE != null){
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    File img = new File(DATAIMAGE.path);
+                    client.addHeader("authorization", UserDataServer.TOKEN);
+                    RequestParams params = new RequestParams();
+                    try {
+                        params.put("img",img);
+                        client.post(EndPoints.UPLOAD_RESTORANT, params, new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Toast.makeText(registroCamara.this,"EXITO",Toast.LENGTH_LONG).show();
+                               // AsyncHttpClient.log.w(LOG_TAG, "onSuccess(int, Header[], JSONObject) was not overriden, but callback was received");
+                            }
+                        });
+                    }catch(FileNotFoundException e) {}
+                }
+
                 //luego ponr la condicion de if
                 Snackbar.make(view, "Registrando datos espere por favor", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent registrodos = new Intent(registroCamara.this, registroDos.class);
-                registroCamara.this.startActivity(registrodos);
+                Intent Add = new Intent(registroCamara.this, Add.class);
+                registroCamara.this.startActivity(Add);
             }
         });
         loadComponents();
@@ -134,4 +161,4 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    }
+     }
