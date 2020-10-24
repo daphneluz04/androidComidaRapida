@@ -11,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,7 +42,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     static final int PERMISION_CODE = 123;
     static final int code_camera = 999;
     Button TakePhoto;
-
+    ImageView gvGalery;
     Button send,cancel,add;
     EditText titulo, precio, descripcion;
     List<String> imageList;
@@ -61,6 +59,27 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         //es para ir del boton crear menu a el fracment menu
         // root.findViewById(R.id.buttonCrearMenu);
         //root.findViewById(R.id.)
+        //*********************registrando datos****************
+
+
+      /*  titulo = getActivity().findViewById(R.id.nombreMenu);
+        precio = getActivity().findViewById(R.id.precioMenu);
+        descripcion = getActivity().findViewById(R.id.descripcionMenu);
+
+        gvGalery = getActivity().findViewById(R.id.imagecamara2);
+        send = getActivity().findViewById(R.id.buttoninsertarMenu);
+        cancel = getActivity().findViewById(R.id.borrar);
+        TakePhoto = getActivity().findViewById(R.id.buttonfotoMenu);*/
+
+       // TakePhoto.setVisibility(View.INVISIBLE);
+       // if (requestPermission()){
+      //      TakePhoto.setVisibility(View.VISIBLE);
+        //}
+
+     /*   add.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        send.setOnClickListener(this);*/
+
 
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -81,15 +100,34 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         TakePhoto.setOnClickListener(this);
 
         list = this.getActivity().findViewById(R.id.milistamenu);
+
+        ArrayList<StructMenu>datos = new ArrayList<>();
+        StructMenu item = new StructMenu();
+              MenuApi api = new MenuApi(this);
+              api.loadMenu();
+      /*  for (int i =0 ; i<100;i++){
+          //StructMenu item = new StructMenu();
+          item.setName("name" + i);
+          item.setPrecio("precio"+i);
+          item.setDescription("descripcion" +i);
+          item.setPicture("picture");
+          datos.add(item);
+        }*/
+        adapterMenu adapter = new adapterMenu(this.getContext(), datos);
+       // ArrayList<String>adapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_list_item_1);
+        list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
             }
         });
-        ArrayList<StructMenu> datos = new ArrayList<>();
+
+       /* ArrayList<StructMenu> datos = new ArrayList<>();
         MenuApi api = new MenuApi(this);
-        api.loadMenu();
+        api.loadMenu();*/
 
     }
     @Override
@@ -105,10 +143,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void requestPermission() {
+    private boolean requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             this.requestPermissions(new String[]{Manifest.permission.CAMERA},PERMISION_CODE);
         }
+        return false;
     }
     public boolean checkPermission(String permission){
         int result = this.getActivity().checkCallingOrSelfPermission(permission);
@@ -148,29 +187,29 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     }
     @Override
     public void onJsonArrayLoad(JSONArray data) {
-        ArrayList<StructMenu> datos = new ArrayList<>();
-        for (int i = 0 ;i<data.length();i++){
+       ArrayList<StructMenu> datos = new ArrayList<>();
+        for (int i = 0 ;i < data.length();i++){
             StructMenu item = new StructMenu();
             try {
-                if (data.getJSONObject(i).has("itemNombre")){ //aqui cambiar si no da
-                    item.setName(data.getJSONObject(i).getString("itemNombre"));
+                if (data.getJSONObject(i).has("name")){ //aqui cambiar si no da
+                    item.setName(data.getJSONObject(i).getString("name"));
                 }else{
                     item.setName("");
                 }
-                if (data.getJSONObject(i).has("itemPrecio")){
-                    item.setPrecio(data.getJSONObject(i).getString("itemPrecio"));
+                if (data.getJSONObject(i).has("precio")){
+                    item.setPrecio(data.getJSONObject(i).getString("precio"));
                 }else{
                     item.setPrecio("");
                 }
-                if(data.getJSONObject(i).has("itemDescripcion")){
-                    item.setDescription(data.getJSONObject(i).getString("itemDescripcion"));
+                if(data.getJSONObject(i).has("description")){
+                    item.setDescription(data.getJSONObject(i).getString("description"));
                 }else{
                     item.setDescription("");
                 }
-                if(data.getJSONObject(i).has("itemImagen")){
-                    item.setPicture(data.getJSONObject(i).getString("itemImagen"));
+                if(data.getJSONObject(i).has(" picture")){
+                    item.setPicture(data.getJSONObject(i).getString(" picture"));
                 }else{
-                    item.setPicture("");
+                    item.setPicture(" picture");
                 }
                 datos.add(item);
             } catch (JSONException e) {

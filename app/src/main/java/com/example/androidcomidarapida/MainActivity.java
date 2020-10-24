@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }else if (res.getString("message").equals("Bienvenido")){
                         Toast.makeText(MainActivity.this,res.getString("message"),Toast.LENGTH_SHORT).show();
-                        //SharedPreferences pref=getSharedPreferences("datauser", Context.MODE_PRIVATE);
-                        //SharedPreferences.Editor edit=pref.edit();
-                       // edit.putString("idUser",res.getString("idUser"));
+                        SharedPreferences pref=getSharedPreferences("datauser", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit=pref.edit();
+                        edit.putString("idUser",res.getString("idUser"));
                        // edit.putString("name",res.getString("name"));
-                        //edit.putString("token",res.getString("token"));
-                        //edit.commit();
+                       // edit.putString("token",res.getString("token"));
+                        edit.commit();
                         //aqui se ira a la clase que se desea
                         Intent in=new Intent(MainActivity.this,registroRestaurtant.class);
                         //in.putExtra("admin",res.getString("admin"));
