@@ -50,6 +50,8 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
     final int CODE_GALERIA=100;
     AdapterAdd adp;
     List<String> imageList;
+
+    Boolean admin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,9 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                Intent lista_restaurante = new Intent(Add.this, ListaRestaurantes.class);
+                Add.this.startActivity(lista_restaurante);
             }
         });
         titulo=findViewById(R.id.addTitle);
@@ -81,6 +86,8 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
         add.setOnClickListener(this);
         cancel.setOnClickListener(this);
         send.setOnClickListener(this);
+
+
     }
 
     private boolean presimision() {
@@ -140,7 +147,7 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
                 for (int i=0;i<imageList.size();i++){
                     fl[i]= new File(imageList.get(i));
                 }
-                req.put("fotolugar",fl); //picture   img
+                req.put("picture",fl); //picture   img
             }
             SharedP pref=new SharedP(Add.this);
             req.put("idUser",pref); //picture

@@ -55,8 +55,6 @@ public class registroMenu extends AppCompatActivity implements View.OnClickListe
             cancel.setOnClickListener(this);
             send.setOnClickListener(this);
         }
-
-
     }
 
   //  @Override
@@ -68,10 +66,6 @@ public class registroMenu extends AppCompatActivity implements View.OnClickListe
    // }
 
     private void enviar() throws FileNotFoundException {
-        try {
-
-        }
-
         AsyncHttpClient client=new AsyncHttpClient();
         RequestParams req=new RequestParams();
 
@@ -85,7 +79,7 @@ public class registroMenu extends AppCompatActivity implements View.OnClickListe
             for (int i=0;i<imageList.size();i++){
                 fl[i]= new File(imageList.get(i));
             }
-            req.put("img",fl); //picture   img
+            req.put("picture",fl); //picture   img
         }
         SharedP pref=new SharedP(registroMenu.this);
         req.put("idUser",pref); //picture
@@ -127,7 +121,7 @@ public class registroMenu extends AppCompatActivity implements View.OnClickListe
             requestPermission();
             // Toast.makeText(this, "no tiene permiso  XD", Toast.LENGTH_LONG).show();
         }
-        enviar();
+        //enviar();
 
     }
     //el codigo dejara que tenga los permisos de camara

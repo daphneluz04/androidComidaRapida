@@ -97,10 +97,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
         list = this.getActivity().findViewById(R.id.milistamenu);
 
-        ArrayList<StructMenu>datos = new ArrayList<>();
-        StructMenu item = new StructMenu();
-              MenuApi api = new MenuApi(this);
-              api.loadMenu();
+      //  ArrayList<StructMenu>datos = new ArrayList<>();
+     //   StructMenu item = new StructMenu();
+      //        MenuApi api = new MenuApi(this);
+      //        api.loadMenu();
       /*  for (int i =0 ; i<100;i++){
           //StructMenu item = new StructMenu();
           item.setName("name" + i);
@@ -109,9 +109,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
           item.setPicture("picture");
           datos.add(item);
         }*/
-        adapterMenu adapter = new adapterMenu(this.getContext(), datos);
+     //   adapterMenu adapter = new adapterMenu(this.getContext(), datos);
        // ArrayList<String>adapter = new ArrayAdapter(this.getContext(), android.R.layout.simple_list_item_1);
-        list.setAdapter(adapter);
+    //    list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 
@@ -120,16 +120,14 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
             }
         });
-<<<<<<< HEAD
+
       //  ArrayList<StructMenu> datos = new ArrayList<>();
        // MenuApi api = new MenuApi(this);
       //  api.loadMenu();
-=======
 
        /* ArrayList<StructMenu> datos = new ArrayList<>();
         MenuApi api = new MenuApi(this);
         api.loadMenu();*/
->>>>>>> e6b36b110f45a0a6d03b26f83b4aa5c8736c214b
 
     }
     @Override
