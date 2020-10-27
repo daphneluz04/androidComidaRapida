@@ -1,13 +1,10 @@
 package com.example.androidcomidarapida;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -15,17 +12,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.androidcomidarapida.utils.BitmapStruct;
+import com.example.androidcomidarapida.ui.dashboard.DashboardFragment;
 import com.example.androidcomidarapida.utils.EndPoints;
-import com.example.androidcomidarapida.utils.UserDataServer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,11 +29,8 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -50,16 +41,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
-public class registroCamara extends AppCompatActivity implements View.OnClickListener  {
+public class Menu extends AppCompatActivity implements View.OnClickListener  {
     private ImageView imageViewImg;
-    private Button btnoption ,btnsend;
+    private EditText nombreMenu,precioMenu,descripcionMenu;
+    private Button buttoninsertarMenu,buttonfotoMenu,borrar;
     private String Carpeta_Root="MisImages/";
     private String RUTA_IMAGES=Carpeta_Root+"Mis_Fotos";
     private String path;
@@ -68,25 +58,33 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
     private EndPoints HOST =new EndPoints();
     private Context root;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_camara);
+        setContentView(R.layout.activity_menu);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-              //  Intent Add = new Intent(registroCamara.this, Add.class);
-              //  registroCamara.this.startActivity(Add);
-
-                //Intent Menu = new Intent(registroCamara.this, Menu.class);
-               // registroCamara.this.startActivity(Menu);
-
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
-          });
+        });
+        nombreMenu=findViewById(R.id.nombreMenu);
+        precioMenu=findViewById(R.id.precioMenu);
+        descripcionMenu=findViewById(R.id.descripcionMenu);
+
+        imageViewImg = this.findViewById(R.id.imageViewImg);
+        buttoninsertarMenu=(Button)this.findViewById(R.id.buttoninsertarMenu);
+        buttonfotoMenu=(Button) this.findViewById(R.id.buttonfotoMenu);
+        borrar=(Button) this.findViewById(R.id.borrar);
+
+        buttonfotoMenu.setOnClickListener(this);
+        buttoninsertarMenu.setOnClickListener(this);
+        borrar.setOnClickListener(this);
 
         checkPermission();
         root = this;
@@ -95,7 +93,6 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
         StrictMode.setVmPolicy(builder.build());
         loadComponents();
     }
-
     private void checkPermission() {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
             return ;
@@ -108,68 +105,68 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
             this.requestPermissions( new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},99);
         }
         return ;
-
-
     }
-
     private void loadComponents() {
-        imageViewImg = this.findViewById(R.id.imagefoto);
-        btnoption=(Button)this.findViewById(R.id.photobtn);
-        btnsend=(Button) this.findViewById(R.id.btnsend);
-        btnsend.setOnClickListener(this);
-        btnoption.setOnClickListener(this);
+
     }
     @Override
-    public void onClick(View v) {
-        if(v.getId()==R.id.photobtn){
+    public void onClick(View view) {
+        if (view.getId()==R.id.buttonfotoMenu){
             cargarImagenes();
+            Intent in =new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            in.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+            in.setType("image/");
+        }else if (R.id.borrar== view.getId()) {
+            Intent in = new Intent(Menu.this, Menu.class);
+            startActivity(in);
+
+        } else if(R.id.buttoninsertarMenu== view.getId()){
+            enviar();
+
         }
-        if(v.getId()==R.id.btnsend) {
+    }
+
+    private void enviar() {
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        RequestParams req=new RequestParams();
+        req.put("name",nombreMenu.getText().toString()); //aqui del api las letras verdes
+        req.put("precio", precioMenu.getText().toString());
+        req.put("description",descripcionMenu.getText().toString());
+        //asi se manda la imagen
+        if ( imageViewImg.getDrawable() != null){
+            Toast.makeText(Menu.this, "debe insertar una imagen",Toast.LENGTH_SHORT).show();
+
+        }if (path != null){
+            File file = new File(path);
+            RequestParams params = new RequestParams();
             try {
-                enviarImg();
+                req.put("picture", file);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        }
-    }
 
-    private void enviarImg() throws FileNotFoundException {
-        if ( imageViewImg.getDrawable() != null) {
-            if (path != null) {
-                File file = new File(path);
-                RequestParams params = new RequestParams();
-                params.put("fotolugar", file);
-                AsyncHttpClient client = new AsyncHttpClient();
-                //  if (UserData.ID != null) {
-                client.post(HOST.getIp() , params, new JsonHttpResponseHandler(){
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        try {
-                            Toast.makeText(getApplicationContext(), "SE REGISTRO SATISFACTORIAMENTE ", Toast.LENGTH_SHORT).show();
-                            //Intent intent = new Intent(root, LatLonMaps.class);
-                            //root.startActivity(intent);
-                            Toast.makeText(getApplicationContext(), response.getString("ok"), Toast.LENGTH_SHORT).show();
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            //  if (UserData.ID != null) {
+            client.post(EndPoints.MENU_SERVICE+"/menu",req,new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        String res = response.getString("message");
+                        Toast.makeText(getApplicationContext(), res, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-
-                        Toast.makeText(getApplicationContext(),"FAIL",Toast.LENGTH_SHORT);
-                    }
+                  }
                 });
 
-
-
-            }
         } else {
             Toast.makeText(this, "No se ha sacado una foto", Toast.LENGTH_LONG).show();
         }
     }
-    public void cargarImagenes(){
+
+
+
+      public void cargarImagenes(){
 
         final CharSequence[] options= {"Tomar Foto","Cargar de Galeria","Cancelar"};
         final AlertDialog.Builder alertopt= new AlertDialog.Builder(this);
@@ -256,8 +253,11 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
+
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-     }
+
+}

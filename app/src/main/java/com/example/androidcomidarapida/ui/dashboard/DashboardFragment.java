@@ -25,14 +25,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.androidcomidarapida.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
 public class DashboardFragment extends Fragment implements View.OnClickListener{
     //private host HOST =new host();
     static final int PERMISION_CODE = 123;
@@ -181,7 +175,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         if (requestCode == code_camera && resultCode == this.getActivity().RESULT_OK){
             Bundle photo = data.getExtras();
             Bitmap imageBitmap = (Bitmap) photo.get("data");
-            ImageView img = this.getActivity().findViewById(R.id.imagecamara2);  //imageView es el nombre de donde se mostrara la imagen en contect registro
+            ImageView img = this.getActivity().findViewById(R.id.imageViewImg);  //imageView es el nombre de donde se mostrara la imagen en contect registro
             img.setImageBitmap(imageBitmap);
         }
     }

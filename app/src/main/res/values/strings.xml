@@ -30,6 +30,14 @@
     <string name="category">Category</string>
     <string name="restaurant">Restaurant</string>
     <string name="todo">TODO</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="crear_menu">Crear menu</string>
+    <string name="insertar">insertar</string>
+    <string name="tomar_foto">Tomar foto</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="precio">Precio</string>
+    <string name="nombre">Nombre</string>
 
 
 </resources>

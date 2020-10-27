@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                        // edit.putString("token",res.getString("token"));
                         edit.commit();
                         //aqui se ira a la clase que se desea
-                        Intent in=new Intent(MainActivity.this,registroRestaurtant.class);
+                        Intent in=new Intent(MainActivity.this,opciones.class);
                         //in.putExtra("admin",res.getString("admin"));
                         startActivity(in);
                     }

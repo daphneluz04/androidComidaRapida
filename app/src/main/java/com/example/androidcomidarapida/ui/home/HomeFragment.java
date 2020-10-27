@@ -44,10 +44,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Button buttonCrearMenu = this.getActivity().findViewById(R.id.buttonCrearMenu);
-        Button button2 = this.getActivity().findViewById(R.id.button2);
-        Button button4 = this.getActivity().findViewById(R.id.button4);
-        Button button5 = this.getActivity().findViewById(R.id.button5);
+        Button buttonCrearMenu = this.getActivity().findViewById(R.id.actCrearMenu);
+        Button button2 = this.getActivity().findViewById(R.id.actLugar);
+        Button button4 = this.getActivity().findViewById(R.id.actPedidos);
+        Button button5 = this.getActivity().findViewById(R.id.actOrdenes);
 
         buttonCrearMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,12 +61,12 @@ public class HomeFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.navigation_notifications);
             }
         });
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.hacerPedido);
-            }
-        });
+        //button4.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+         //   public void onClick(View view) {
+        //        Navigation.findNavController(view).navigate(R.id.hacerPedido);
+        //    }
+        //});
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

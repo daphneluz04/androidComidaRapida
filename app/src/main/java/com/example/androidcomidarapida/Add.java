@@ -121,9 +121,11 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
             in.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
             in.setType("image/");
             startActivityForResult(Intent.createChooser(in,"seleccione imagenes"),CODE_GALERIA);
-            ;        }else if (R.id.addVolver== view.getId()) {
+
+            }else if (R.id.addVolver== view.getId()) {
             Intent in = new Intent(Add.this, DashboardFragment.class);
             startActivity(in);
+
         } else if(R.id.addEnviar== view.getId()){
             enviar();
         }
@@ -142,6 +144,7 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
             //asi se manda la imagen
             if (imageList.size()==0){
                 Toast.makeText(Add.this, "debe insertar una imagen",Toast.LENGTH_SHORT).show();
+                return;
             }else {
                 File[]fl=new File[imageList.size()];
                 for (int i=0;i<imageList.size();i++){
@@ -150,7 +153,7 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
                req.put("picture",fl); //picture   img
             }
             SharedP pref=new SharedP(Add.this);
-            //req.put("idUser",pref); //picture
+            req.put("idUser",pref); //picture
 
             client.post(EndPoints.MENU_SERVICE+"/menu",req,new JsonHttpResponseHandler(){
                 @Override
@@ -168,7 +171,7 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
             });
 
         }catch (Exception e){
-            Toast.makeText(Add.this, "error al insertar",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Add.this, "falta llenar un campo",Toast.LENGTH_SHORT).show();
         }
     }
 
