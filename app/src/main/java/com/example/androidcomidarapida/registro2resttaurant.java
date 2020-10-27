@@ -56,7 +56,7 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
     private GoogleMap mMap;
     private Geocoder geocoder;
     private LatLng mainposition;
-    private TextView street;
+    private TextView calle;
     private Button fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +68,8 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         map.onResume();
         MapsInitializer.initialize(this);
         map.getMapAsync(this);
+
         geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-        //calle = findViewById(R.id.calle);
-        //hasta aqui mapa
-
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,6 +88,7 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
 
                 }
         });
+        calle=findViewById(R.id.CalleRest);
     }
 
     private void sendData() {
@@ -98,8 +96,11 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         client.addHeader("authorization", UserDataServer.TOKEN);
 
         RequestParams rq=new RequestParams();
-        rq.put("Lat", String.valueOf(""));
-        rq.put("Log", String.valueOf(""));
+        rq.put("Lat", String.valueOf(mainposition.latitude));
+        rq.put("Log", String.valueOf(mainposition.longitude));
+        rq.put("street",calle.getText().toString());
+        //rq.put("Lat", String.valueOf(""));
+       // rq.put("Log", String.valueOf(""));
 
         client.post(EndPoints.HOST+"/restaurante", rq,new JsonHttpResponseHandler(){
             @Override
@@ -154,12 +155,12 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 mainposition = marker.getPosition();
-                String street_string = getStreet(marker.getPosition().latitude, marker.getPosition().longitude);
-                street.setText(street_string);
+                String calle_string = getCalle(marker.getPosition().latitude, marker.getPosition().longitude);
+                calle.setText(calle_string);
             }
         });
     }
-    public String getStreet (Double lat, Double lon) {
+    public String getCalle (Double lat, Double lon) {
         List<Address> address;
         String result = "";
         try {
