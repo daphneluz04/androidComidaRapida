@@ -67,7 +67,7 @@ public class registroRestaurtant extends AppCompatActivity implements View.OnCli
         restaurant=findViewById(R.id.nombrerest);
         nit=findViewById(R.id.nitrest);
         propietario=findViewById(R.id.propietarioRest);
-        calle=findViewById(R.id.CalleRest);
+        //calle=findViewById(R.id.CalleRest);
         telf=findViewById(R.id.telefonoRest);
         send=findViewById(R.id.restauran1Send);
         back=findViewById(R.id.bankrestaurant1);
@@ -80,9 +80,9 @@ public class registroRestaurtant extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         if (v.getId()==R.id.restauran1Send){
             enviar();
-            //Intent in = new Intent(registroRestaurtant.this,registro2resttaurant.class);
+            Intent in = new Intent(registroRestaurtant.this,registro2resttaurant.class);
 
-            Intent in = new Intent(registroRestaurtant.this,registroCamara.class);
+           // Intent in = new Intent(registroRestaurtant.this,registroCamara.class);
             startActivity(in);
             Snackbar.make(v, "Registrando datos", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -103,7 +103,7 @@ public class registroRestaurtant extends AppCompatActivity implements View.OnCli
         rq.put("name",restaurant.getText().toString());
         rq.put("nit",nit.getText().toString());
         rq.put("propietario",propietario.getText().toString());
-        rq.put("street",calle.getText().toString());
+        //rq.put("street",calle.getText().toString());
         rq.put("telephone",telf.getText().toString()); //la palabra verde viene de el api
 
         client.post(EndPoints.HOST+"/restaurante", rq,new JsonHttpResponseHandler(){

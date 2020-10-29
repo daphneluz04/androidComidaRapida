@@ -1,3 +1,4 @@
+
 package com.example.androidcomidarapida;
 
 import android.Manifest;
@@ -82,8 +83,8 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
 
-              //  Intent Add = new Intent(registroCamara.this, Add.class);
-              //  registroCamara.this.startActivity(Add);
+                Intent opciones = new Intent(registroCamara.this, opciones.class);
+                registroCamara.this.startActivity(opciones);
 
                 //Intent Menu = new Intent(registroCamara.this, Menu.class);
                // registroCamara.this.startActivity(Menu);

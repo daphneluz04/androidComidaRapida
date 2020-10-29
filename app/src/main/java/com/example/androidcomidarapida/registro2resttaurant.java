@@ -28,6 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,14 +46,14 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
     private GoogleMap mMap;
     private Geocoder geocoder;
     private LatLng mainposition;
-    private TextView calle;
+    private EditText calle;
     //private Button fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro2resttaurant);
         //mapa
-        calle=findViewById(R.id.CalleRest);
+        calle=findViewById(R.id.calleText);
         geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
         map = findViewById(R.id.mapView);
         map.onCreate(savedInstanceState);
