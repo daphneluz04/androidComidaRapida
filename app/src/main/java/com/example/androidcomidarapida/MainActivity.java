@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         req.put("password",pass.getText().toString());
 
         //aqui se ira a la clase que se desea
-       //Intent in = new Intent(MainActivity.this,registroRestaurtant.class);
+       //Intent in = new Intent(MainActivity.this,lista.class);
         //startActivity(in);
 
        client.post(EndPoints.ip+"/user/login",req,new JsonHttpResponseHandler(){

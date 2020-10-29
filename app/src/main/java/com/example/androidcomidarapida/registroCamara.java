@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -140,8 +142,10 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
                 RequestParams params = new RequestParams();
                 params.put("fotolugar", file);
                 AsyncHttpClient client = new AsyncHttpClient();
+                client.addHeader("authorization", UserDataServer.TOKEN);
                 //  if (UserData.ID != null) {
-                client.post(HOST.getIp() , params, new JsonHttpResponseHandler(){
+                client.post(EndPoints.HOST+"/restaurante", params,new JsonHttpResponseHandler(){
+                //client.post(HOST.getIp() , params, new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
@@ -251,6 +255,7 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
                         }
                     });
                     Bitmap bitmap= BitmapFactory.decodeFile(path);
+                    //Bitmap ss = getSavedStateRegistry(imageViewImg);
                     imageViewImg.setImageBitmap(bitmap);
                     break;
             }
@@ -260,4 +265,5 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-     }
+
+}

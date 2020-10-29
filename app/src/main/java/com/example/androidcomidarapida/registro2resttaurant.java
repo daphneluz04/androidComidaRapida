@@ -1,19 +1,12 @@
 package com.example.androidcomidarapida;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.view.LayoutInflater;
+
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.androidcomidarapida.utils.EndPoints;
 import com.example.androidcomidarapida.utils.UserDataServer;
@@ -22,7 +15,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,9 +27,7 @@ import com.loopj.android.http.RequestParams;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.provider.MediaStore;
-import android.widget.Button;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,14 +40,13 @@ import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
-public class registro2resttaurant extends AppCompatActivity implements OnMapReadyCallback{
-    //mapa
+public class registro2resttaurant extends AppCompatActivity implements OnMapReadyCallback{  //mapa
     private MapView map;
     private GoogleMap mMap;
     private Geocoder geocoder;
     private LatLng mainposition;
     private TextView calle;
-    private Button fab;
+    //private Button fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +59,7 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         map.getMapAsync(this);
 
         geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+        calle=findViewById(R.id.CalleRest);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,7 +78,7 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
 
                 }
         });
-        calle=findViewById(R.id.CalleRest);
+       // calle=findViewById(R.id.CalleRest);
     }
 
     private void sendData() {
@@ -96,11 +86,11 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         client.addHeader("authorization", UserDataServer.TOKEN);
 
         RequestParams rq=new RequestParams();
-        rq.put("Lat", String.valueOf(mainposition.latitude));
-        rq.put("Log", String.valueOf(mainposition.longitude));
+       // rq.put("Lat", String.valueOf(mainposition.latitude));
+       // rq.put("Log", String.valueOf(mainposition.longitude));
         rq.put("street",calle.getText().toString());
-        //rq.put("Lat", String.valueOf(""));
-       // rq.put("Log", String.valueOf(""));
+        rq.put("Lat", String.valueOf(""));
+        rq.put("Log", String.valueOf(""));
 
         client.post(EndPoints.HOST+"/restaurante", rq,new JsonHttpResponseHandler(){
             @Override
@@ -167,10 +157,22 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
             address = geocoder.getFromLocation(lat, lon, 1);
             result += address.get(0).getThoroughfare();
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return result;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

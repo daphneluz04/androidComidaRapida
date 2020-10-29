@@ -24,10 +24,7 @@
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".opciones" />
-        <activity
-            android:name=".ItemRestaurant"
-            android:label="@string/title_activity_item_restaurant"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ListaRestaurantes"
             android:label="@string/title_activity_lista_restaurantes"
@@ -63,10 +60,6 @@
         <activity
             android:name=".registroDos"
             android:label="@string/title_activity_registro_dos" />
-        <activity
-            android:name=".registro2resttaurant"
-            android:label="@string/title_activity_registro2resttaurant"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,6 +68,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".registro2resttaurant"
+            android:label="@string/title_activity_registro2resttaurant"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

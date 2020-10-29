@@ -38,6 +38,8 @@
     <string name="descripcion">Descripcion</string>
     <string name="precio">Precio</string>
     <string name="nombre">Nombre</string>
+    <string name="registro_de_restaurant">Registro de Restaurant</string>
+    <string name="calle">Calle</string>
 
 
 </resources>

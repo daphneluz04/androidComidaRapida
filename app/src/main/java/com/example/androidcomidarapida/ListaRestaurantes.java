@@ -31,14 +31,7 @@ public class ListaRestaurantes extends AppCompatActivity {
         lstBook.add(new ItemRestaurant("la casona","category book","Description book",R.drawable.imagen2));
         lstBook.add(new ItemRestaurant("pollo rico","category book","Description book",R.drawable.imagen3));
         lstBook.add(new ItemRestaurant("vegetarian","category book","Description book",R.drawable.imagen4));
-        lstBook.add(new ItemRestaurant("fastfood","category book","Description book",R.drawable.imagen5));
-        lstBook.add(new ItemRestaurant("alitas","category book","Description book",R.drawable.imagen6));
-        lstBook.add(new ItemRestaurant("el fogon","category book","Description book",R.drawable.imagen1));
-        lstBook.add(new ItemRestaurant("la casona","category book","Description book",R.drawable.imagen2));
-        lstBook.add(new ItemRestaurant("pollo rico","category book","Description book",R.drawable.imagen3));
-        lstBook.add(new ItemRestaurant("vegetarian","category book","Description book",R.drawable.imagen4));
-        lstBook.add(new ItemRestaurant("fastfood","category book","Description book",R.drawable.imagen5));
-        lstBook.add(new ItemRestaurant("alitas","category book","Description book",R.drawable.imagen6));
+
 
         RecyclerView myrv = (RecyclerView) findViewById(R.id.RecyclerView);
         RecyclerViewAdapter myadapter = new RecyclerViewAdapter(this,lstBook);

@@ -1,9 +1,19 @@
 package com.example.androidcomidarapida;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.androidcomidarapida.utils.EndPoints;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpClient;
@@ -16,14 +26,20 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import cz.msebera.android.httpclient.Header;
 
-public class registroRestaurtant extends AppCompatActivity implements View.OnClickListener {
+public class registroRestaurtant extends AppCompatActivity implements View.OnClickListener{
+
     EditText restaurant,nit,propietario,calle,telf;
     Button send,back;
     //private Button next;
@@ -41,7 +57,7 @@ public class registroRestaurtant extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Bienvenido a las actividades", Snackbar.LENGTH_LONG)
-                       .setAction("Action", null).show();
+                        .setAction("Action", null).show();
 
                 Intent intent = new Intent(registroRestaurtant.this, registro2resttaurant.class);
                 registroRestaurtant.this.startActivity(intent);
@@ -64,7 +80,9 @@ public class registroRestaurtant extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         if (v.getId()==R.id.restauran1Send){
             enviar();
-            Intent in = new Intent(registroRestaurtant.this,registro2resttaurant.class);
+            //Intent in = new Intent(registroRestaurtant.this,registro2resttaurant.class);
+
+            Intent in = new Intent(registroRestaurtant.this,registroCamara.class);
             startActivity(in);
             Snackbar.make(v, "Registrando datos", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -109,4 +127,11 @@ public class registroRestaurtant extends AppCompatActivity implements View.OnCli
 
     }
 }
+
+
+
+
+
+
+
 

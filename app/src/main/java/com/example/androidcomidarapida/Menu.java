@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.androidcomidarapida.ui.dashboard.DashboardFragment;
 import com.example.androidcomidarapida.utils.EndPoints;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -22,6 +21,7 @@ import com.loopj.android.http.RequestParams;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Environment;
@@ -47,6 +47,7 @@ import java.util.Locale;
 import cz.msebera.android.httpclient.Header;
 
 public class Menu extends AppCompatActivity implements View.OnClickListener  {
+
     private ImageView imageViewImg;
     private EditText nombreMenu,precioMenu,descripcionMenu;
     private Button buttoninsertarMenu,buttonfotoMenu,borrar;
@@ -147,7 +148,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener  {
             }
 
             //  if (UserData.ID != null) {
-            client.post(EndPoints.MENU_SERVICE+"/menu",req,new JsonHttpResponseHandler(){
+            client.post(EndPoints.MENU_SERVICE,req,new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
@@ -157,7 +158,12 @@ public class Menu extends AppCompatActivity implements View.OnClickListener  {
                         e.printStackTrace();
                     }
                   }
-                });
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Toast.makeText(getApplicationContext(), errorResponse.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
 
         } else {
             Toast.makeText(this, "No se ha sacado una foto", Toast.LENGTH_LONG).show();
@@ -244,7 +250,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener  {
                     MediaScannerConnection.scanFile(this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
                         public void onScanCompleted(String I, Uri uri) {
-                            Log.i("Ruta de almacenamiento","PATH:"+path);
+                            Log.i("Ruta de almacenamiento","PATH:"+path); //aqui
                         }
                     });
                     Bitmap bitmap= BitmapFactory.decodeFile(path);

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.example.androidcomidarapida.Adapters.AdapterAdd;
 import com.example.androidcomidarapida.ui.dashboard.DashboardFragment;
 import com.example.androidcomidarapida.utils.EndPoints;
+import com.example.androidcomidarapida.utils.UserDataServer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.AsyncHttpClient;
@@ -137,6 +138,7 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
 
             AsyncHttpClient client=new AsyncHttpClient();
             RequestParams req=new RequestParams();
+            client.addHeader("authorization", UserDataServer.TOKEN);
 
             req.put("name",titulo.getText().toString()); //aqui del api las letras verdes
             req.put("precio",precio.getText().toString());
@@ -155,7 +157,7 @@ public class Add extends AppCompatActivity implements View.OnClickListener{
             SharedP pref=new SharedP(Add.this);
             req.put("idUser",pref); //picture
 
-            client.post(EndPoints.MENU_SERVICE+"/menu",req,new JsonHttpResponseHandler(){
+            client.post(EndPoints.MENU_SERVICE,req,new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
