@@ -39,7 +39,7 @@ public class opciones extends AppCompatActivity implements View.OnClickListener 
             Intent lugar=new Intent(opciones.this,ListaRestaurantes.class);
             startActivity(lugar);
         }else if (view.getId()==R.id.actPedidos){
-            Intent pedidos=new Intent(opciones.this,Add.class);
+            Intent pedidos=new Intent(opciones.this,listaMenu.class);
             startActivity(pedidos);
         }else if (view.getId()==R.id.actOrdenes){
             Intent ordenes=new Intent(opciones.this,register.class);

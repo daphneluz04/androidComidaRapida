@@ -61,10 +61,6 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         MapsInitializer.initialize(this);
         map.getMapAsync(this);
 
-
-
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -140,11 +140,33 @@
         app:layout_constraintStart_toEndOf="@+id/borrar"
         app:layout_constraintTop_toBottomOf="@+id/imageViewImg" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RecyclerMenu"
-        android:layout_width="400dp"
-        android:layout_height="384dp"
+    <EditText
+        android:id="@+id/seachMenu"
+        android:layout_width="358dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="#B6D5ED"
+        android:ems="10"
+        android:hint="Menu"
+        android:inputType="textPersonName"
+        android:textColorHint="#494646"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttoninsertarMenu" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonfotoMenu" />
+
+    <ListView
+        android:id="@+id/listviewlayout"
+        android:layout_width="383dp"
+        android:layout_height="295dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#DBFBFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seachMenu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
