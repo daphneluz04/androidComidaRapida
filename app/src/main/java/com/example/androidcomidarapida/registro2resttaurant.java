@@ -52,14 +52,17 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro2resttaurant);
         //mapa
+        calle=findViewById(R.id.CalleRest);
+        geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
         map = findViewById(R.id.mapView);
         map.onCreate(savedInstanceState);
         map.onResume();
         MapsInitializer.initialize(this);
         map.getMapAsync(this);
 
-        geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-        calle=findViewById(R.id.CalleRest);
+
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,11 +89,11 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
         client.addHeader("authorization", UserDataServer.TOKEN);
 
         RequestParams rq=new RequestParams();
-       // rq.put("Lat", String.valueOf(mainposition.latitude));
-       // rq.put("Log", String.valueOf(mainposition.longitude));
+       rq.put("Lat", String.valueOf(mainposition.latitude));
+       rq.put("Log", String.valueOf(mainposition.longitude));
         rq.put("street",calle.getText().toString());
-        rq.put("Lat", String.valueOf(""));
-        rq.put("Log", String.valueOf(""));
+       // rq.put("Lat", String.valueOf(""));
+       // rq.put("Log", String.valueOf(""));
 
         client.post(EndPoints.HOST+"/restaurante", rq,new JsonHttpResponseHandler(){
             @Override
@@ -127,6 +130,7 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
 
         LatLng potosi = new LatLng(-19.5783329, -65.7563853);
         mainposition = potosi;
+
         mMap.addMarker(new MarkerOptions().position(potosi).title("Lugar").zIndex(17).draggable(true));
         mMap.setMinZoomPreference(16);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(potosi, 15));
@@ -145,6 +149,7 @@ public class registro2resttaurant extends AppCompatActivity implements OnMapRead
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 mainposition = marker.getPosition();
+
                 String calle_string = getCalle(marker.getPosition().latitude, marker.getPosition().longitude);
                 calle.setText(calle_string);
             }

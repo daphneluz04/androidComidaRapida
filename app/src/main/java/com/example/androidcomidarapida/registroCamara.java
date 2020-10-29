@@ -65,6 +65,7 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
     private String Carpeta_Root="MisImages/";
     private String RUTA_IMAGES=Carpeta_Root+"Mis_Fotos";
     private String path;
+
     private int CODE_GALLERY= 10;
     private int CODE_CAMERA= 20;
     private EndPoints HOST =new EndPoints();
@@ -140,7 +141,7 @@ public class registroCamara extends AppCompatActivity implements View.OnClickLis
             if (path != null) {
                 File file = new File(path);
                 RequestParams params = new RequestParams();
-                params.put("fotolugar", file);
+                params.put("fotolugar", file,"image/png");
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.addHeader("authorization", UserDataServer.TOKEN);
                 //  if (UserData.ID != null) {

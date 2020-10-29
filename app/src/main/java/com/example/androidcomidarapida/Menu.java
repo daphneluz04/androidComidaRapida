@@ -142,7 +142,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener  {
             File file = new File(path);
             RequestParams params = new RequestParams();
             try {
-                req.put("picture", file);
+                req.put("picture", file,"image/png");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
